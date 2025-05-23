@@ -25,12 +25,6 @@
   
   
   
-  
-  <form onsubmit="handleSearch(event)" style="margin: 20px auto; text-align: center;">
-    <input type="text" id="queryInput" placeholder="Tìm kiếm..." style="padding: 10px; width: 300px;" />
-    <button type="submit" style="padding: 10px 20px;">Tìm kiếm</button>
-  </form>
- 
 
 
 
@@ -87,20 +81,28 @@
 
     <script>
   function removeVietnameseTones(str) {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+              .replace(/đ/g, "d").replace(/Đ/g, "D");
   }
 
-  function handleSearch(e) {
-    e.preventDefault();
-    const query = document.getElementById("queryInput").value;
-    const normalized = removeVietnameseTones(query.toLowerCase().trim());
-    if (normalized.includes("su kien ha noi")) {
-      window.location.href = "index_2.html";
-    } else {
-      alert("Không tìm thấy kết quả phù hợp.");
+  document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("main-search-input");
+    if (input) {
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const query = removeVietnameseTones(input.value.toLowerCase().trim());
+          if (query.includes("su kien ha noi")) {
+            window.location.href = "index_2.html";
+          } else {
+            alert("Không tìm thấy kết quả phù hợp.");
+          }
+        }
+      });
     }
-  }
+  });
 </script>
+
 
 
 
